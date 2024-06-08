@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { signOut } from 'firebase/auth';
+import { auth } from "../firebase"; // Ensure this path is correct
 
 const Posting = () => {
   const [formData, setFormData] = useState({
@@ -21,8 +23,20 @@ const Posting = () => {
     // You can send this data to an API or perform any other actions as needed
   };
 
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      console.log("Sign-out successful.");
+      // Redirect to login page or handle post-sign-out logic
+    }).catch((error) => {
+      console.error("Error signing out: ", error);
+    });
+  };
+
   return (
     <div style={styles.container}>
+      <div style={styles.header}>
+        <button onClick={handleSignOut} style={styles.signOutButton}>Sign Out</button>
+      </div>
       <h1 style={styles.heading}>Post a Job</h1>
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.formGroup}>
@@ -107,6 +121,23 @@ const styles = {
     padding: '20px',
     backgroundImage: 'linear-gradient(to right, #ff7e5f, #feb47b)',
     fontFamily: 'Arial, sans-serif',
+  },
+  header: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '10px 20px',
+    boxSizing: 'border-box',
+  },
+  signOutButton: {
+    padding: '10px 20px',
+    fontSize: '16px',
+    color: '#fff',
+    backgroundColor: '#e8491d',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
   },
   heading: {
     color: '#fff',
