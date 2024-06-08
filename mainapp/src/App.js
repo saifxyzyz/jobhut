@@ -3,11 +3,13 @@ import React from 'react';
 import Intro from './Components/Pages/Intro';
 import Login from './Components/Pages/Login';
 import Signup from './Components/Pages/Signup';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import Home from './Components/Pages/Home'
+import { Navigate, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Components/firebase';
+
+
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -27,14 +29,22 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Intro />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Signup" element={<Signup />} />
-        </Routes>
-        <ToastContainer/>
-      </Router>
+      <Routes>
+        <Route path="/" element={<Intro />} />
+        <Route
+          path="/Login"
+          element={user ? <Navigate to="/Home" replace={true} /> : <Login />}
+        />
+        <Route
+          path="/Signup"
+          element={user ? <Navigate to="/Home" replace={true} /> : <Signup />}
+        />
+
+        <Route
+          path="/Home"
+          element={user ? <Home /> : <Navigate to="/Login" replace={true} />}
+        />
+      </Routes>
     </div>
   );
 }

@@ -1,0 +1,30 @@
+.homecont{
+    background-size:auto;
+    background-color:  rgb(0, 105, 137);
+    display:flow-root;
+    
+    
+}
+.nav{
+    /* margin: 20px; */
+    background-color: azure;
+    text-align: start;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    /* margin: 0; */
+}
+.mainp{
+    background-color: aliceblue;
+    /* text-align: center; */
+    
+    cursor: pointer;
+    /* height: fit-content; */
+    /* justify-content: center; */
+    margin: 20%;
+}
+.workerpod1{
+    margin-bottom: 20%;
+}
+.workerpod1:hover{
+    background-color: turquoise;
+}
