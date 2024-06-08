@@ -15,7 +15,7 @@ const Intro = () => {
   return (
     <div className="bg">
       <button class='emp' onClick={()=> navigate("/Signupworker")}>I'm Looking for a Job</button>
-      <button class='hire' >I'm Looking to Hire</button>
+      <button class='hire' onClick={()=> navigate("/Signup")}>I'm Looking to Hire</button>
     </div>
   )
 }
