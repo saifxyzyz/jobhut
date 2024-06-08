@@ -3,6 +3,7 @@ import React from 'react';
 import Intro from './Components/Pages/Intro';
 import Login from './Components/Pages/Login';
 import Signup from './Components/Pages/Signup';
+import Posting from './Components/Pages/Posting';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import { useState, useEffect } from 'react';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" element={<Intro />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Signup" element={<Signup />} />
+          <Route path="/Posting" element={<Posting />} />
         </Routes>
       </Router>
     </div>
