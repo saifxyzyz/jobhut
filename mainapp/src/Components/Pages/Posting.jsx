@@ -4,6 +4,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from "../firebase"; // Ensure this path is correct
 import { Jobcontext } from './Jobcontext';
 
+
 const Posting = () => {
   const { addJob } = useContext(Jobcontext);
   const navigate = useNavigate();
@@ -106,6 +107,7 @@ const Posting = () => {
           style={styles.submitButton}
           onMouseEnter={(e) => (e.target.style.backgroundColor = styles.submitButtonHover.backgroundColor)}
           onMouseLeave={(e) => (e.target.style.backgroundColor = styles.submitButton.backgroundColor)}
+          onClick={saveDataToFirestore}
         >
           Submit
         </button>
