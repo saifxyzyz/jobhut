@@ -9,6 +9,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Components/firebase';
+
+
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
