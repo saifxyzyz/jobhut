@@ -50,28 +50,28 @@ const Listing = () => {
 
   const styles = {
     container: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      minHeight: '100vh',
-      padding: '20px',
-      backgroundImage: 'linear-gradient(to right, #ff7e5f, #feb47b)',
-      fontFamily: 'Arial, sans-serif',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        minHeight: '100vh',
+        padding: '20px',
+        backgroundImage: 'linear-gradient(to right, #ff7e5f, #feb47b)',
+        fontFamily: 'Arial, sans-serif',
     },
     header: {
-      position: 'absolute',
-      top: '20px',
-      right: '20px',
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
     },
     signOutButton: {
-      padding: '10px 20px',
-      fontSize: '16px',
-      color: '#fff',
-      backgroundColor: '#e8491d',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
+        padding: '10px 20px',
+        fontSize: '16px',
+        color: '#fff',
+        backgroundColor: '#e8491d',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease',
     },
     heading: {
       color: '#fff',
@@ -81,46 +81,48 @@ const Listing = () => {
     },
     jobList: {
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      gap: '20px',
+      maxWidth: '1200px',
     },
     jobItem: {
       backgroundColor: '#fff',
-      padding: '40px', // Doubled padding for larger posts
+      padding: '60px', // Three times bigger padding
       borderRadius: '10px',
       boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-      marginBottom: '40px', // Doubled margin for larger posts
-      width: '100%',
-      maxWidth: '700px', // Adjusted max-width for larger posts
+      width: 'calc((100% - 40px) / 3)', // Three posts per row with 20px gap
       position: 'relative',
+      boxSizing: 'border-box',
     },
     jobTitle: {
-      fontSize: '32px', // Increased font size for larger posts
-      margin: '0 0 20px', // Adjusted margin for larger posts
+      fontSize: '48px', // Three times bigger font size
+      margin: '0 0 20px',
     },
     jobDetail: {
-      fontSize: '18px', // Increased font size for larger posts
-      margin: '10px 0', // Adjusted margin for larger posts
+      fontSize: '24px', // Three times bigger font size
+      margin: '10px 0',
     },
     applyButton: {
-      position: 'absolute',
-      bottom: '20px',
-      right: '20px',
-      padding: '10px 20px',
-      fontSize: '16px',
-      color: '#fff',
-      backgroundColor: '#007bff',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      transition: 'all 0.3s ease',
+        position: 'absolute',
+        bottom: '20px',
+        right: '20px',
+        padding: '8px 16px', // Smaller padding
+        fontSize: '14px', // Smaller font size
+        color: '#fff',
+        backgroundColor: '#e8491d', // Color like sign-out button
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
     },
     appliedButton: {
       position: 'absolute',
       bottom: '20px',
       right: '20px',
-      padding: '10px 20px',
-      fontSize: '16px',
+      padding: '8px 16px', // Three times bigger padding
+      fontSize: '14px', // Three times bigger font size
       color: '#fff',
       backgroundColor: '#6c757d',
       border: 'none',
@@ -129,7 +131,7 @@ const Listing = () => {
       transition: 'all 0.3s ease',
     },
     noJobs: {
-      fontSize: '18px',
+      fontSize: '24px',
       color: '#fff',
     },
   };
@@ -145,10 +147,10 @@ const Listing = () => {
           data.map((job) => (
             <div key={job.id} style={styles.jobItem}>
               <h2 style={styles.jobTitle}>{job.jobTitle}</h2>
-              <p style={styles.jobDetail}><strong>Location:</strong> {job.location}</p>
-              <p style={styles.jobDetail}><strong>Date and Time:</strong> {job.dateTime}</p>
+              <p style={styles.jobDetail}><strong>Job:</strong> {job.job}</p>
+              <p style={styles.jobDetail}><strong>Date:</strong> {job.datentime}</p>
               <p style={styles.jobDetail}><strong>Pay:</strong> {job.pay}</p>
-              <p style={styles.jobDetail}><strong>Description:</strong> {job.description}</p>
+              <p style={styles.jobDetail}><strong>Description:</strong> {job.desc}</p>
               <button
                 style={isJobApplied(job.id) ? styles.appliedButton : styles.applyButton}
                 onClick={() => handleApplyClick(job.id)}
