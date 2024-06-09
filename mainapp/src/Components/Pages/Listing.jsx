@@ -1,14 +1,34 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Jobcontext } from './Jobcontext';
 import ConfirmModal from './ConfirmModal';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.js';
+import { getDocs, collection } from 'firebase/firestore';
+import { db } from '../firebase.js';
 
 const Listing = () => {
   const { jobs } = useContext(Jobcontext);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentJobId, setCurrentJobId] = useState(null);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "mycollection"));
+        const documents = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setData(documents);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleApplyClick = (jobId) => {
     setCurrentJobId(jobId);
@@ -30,10 +50,8 @@ const Listing = () => {
 
   const styles = {
     container: {
-      position: 'relative',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
       alignItems: 'center',
       minHeight: '100vh',
       padding: '20px',
@@ -61,33 +79,33 @@ const Listing = () => {
       textAlign: 'center',
       marginBottom: '20px',
     },
-    list: {
+    jobList: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
     },
-    listItem: {
+    jobItem: {
       backgroundColor: '#fff',
-      padding: '20px',
+      padding: '40px', // Doubled padding for larger posts
       borderRadius: '10px',
       boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-      marginBottom: '20px',
+      marginBottom: '40px', // Doubled margin for larger posts
       width: '100%',
-      maxWidth: '500px',
+      maxWidth: '700px', // Adjusted max-width for larger posts
       position: 'relative',
     },
     jobTitle: {
-      fontSize: '24px',
-      margin: '0 0 10px',
+      fontSize: '32px', // Increased font size for larger posts
+      margin: '0 0 20px', // Adjusted margin for larger posts
     },
     jobDetail: {
-      fontSize: '16px',
-      margin: '5px 0',
+      fontSize: '18px', // Increased font size for larger posts
+      margin: '10px 0', // Adjusted margin for larger posts
     },
     applyButton: {
       position: 'absolute',
       bottom: '20px',
-      left: '20px',
+      right: '20px',
       padding: '10px 20px',
       fontSize: '16px',
       color: '#fff',
@@ -100,7 +118,7 @@ const Listing = () => {
     appliedButton: {
       position: 'absolute',
       bottom: '20px',
-      left: '20px',
+      right: '20px',
       padding: '10px 20px',
       fontSize: '16px',
       color: '#fff',
@@ -122,10 +140,10 @@ const Listing = () => {
         <button onClick={() => signOut(auth)} style={styles.signOutButton}>Sign Out</button>
       </div>
       <h1 style={styles.heading}>Job Listings</h1>
-      <div style={styles.list}>
-        {jobs.length > 0 ? (
-          jobs.map((job) => (
-            <div key={job.id} style={styles.listItem}>
+      <div style={styles.jobList}>
+        {data.length > 0 ? (
+          data.map((job) => (
+            <div key={job.id} style={styles.jobItem}>
               <h2 style={styles.jobTitle}>{job.jobTitle}</h2>
               <p style={styles.jobDetail}><strong>Location:</strong> {job.location}</p>
               <p style={styles.jobDetail}><strong>Date and Time:</strong> {job.dateTime}</p>
