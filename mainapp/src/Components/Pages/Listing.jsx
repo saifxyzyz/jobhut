@@ -182,6 +182,8 @@ const Listing = () => {
     <div>
       <h1>Firestore Data</h1>
       <div style={styles.container}>
+      <button onClick={()=>{signOut(auth)}} style={styles.signOutButton}>Sign Out</button>
+
         {data.map(doc => (
           <div className="card" key={doc.pay}>
             <div className="card-title"></div>
