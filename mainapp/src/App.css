@@ -28,3 +28,22 @@
     height:20%;
     margin-top:10px;
   }
+  /* styles.css */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 300px;
+}
+
+.card-title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+
+.card-content {
+  font-size: 1em;
+  color: #333;
+}

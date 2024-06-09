@@ -146,39 +146,56 @@ const Listing = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <button onClick={()=>{signOut(auth)}} style={styles.signOutButton}>Sign Out</button>
-      </div>
-      <h1 style={styles.heading}>Job Listings</h1>
-      <div style={styles.list}>
-        {jobs.length > 0 ? (
-          jobs.map((job) => (
-            <div key={job.id} style={styles.listItem}>
-              <h2 style={styles.jobTitle}>{job.jobTitle}</h2>
-              <p style={styles.jobDetail}><strong>Location:</strong> {job.location}</p>
-              <p style={styles.jobDetail}><strong>Date and Time:</strong> {job.dateTime}</p>
-              <p style={styles.jobDetail}><strong>Pay:</strong> {job.pay}</p>
-              <p style={styles.jobDetail}><strong>Description:</strong> {job.description}</p>
-              <button
-                style={isJobApplied(job.id) ? styles.appliedButton : styles.applyButton}
-                onClick={() => handleApplyClick(job.id)}
-                disabled={isJobApplied(job.id)}
-              >
-                {isJobApplied(job.id) ? 'Applied' : 'Apply'}
-              </button>
+    // <div style={styles.container}>
+    //   <div style={styles.header}>
+    //     <button onClick={()=>{signOut(auth)}} style={styles.signOutButton}>Sign Out</button>
+    //   </div>
+    //   <h1 style={styles.heading}>Job Listings</h1>
+    //   <div style={styles.list}>
+    //     {jobs.length > 0 ? (
+    //       jobs.map((job) => (
+    //         <div key={job.id} style={styles.listItem}>
+    //           <h2 style={styles.jobTitle}>{job.jobTitle}</h2>
+    //           <p style={styles.jobDetail}><strong>Location:</strong> {job.location}</p>
+    //           <p style={styles.jobDetail}><strong>Date and Time:</strong> {job.dateTime}</p>
+    //           <p style={styles.jobDetail}><strong>Pay:</strong> {job.pay}</p>
+    //           <p style={styles.jobDetail}><strong>Description:</strong> {job.description}</p>
+    //           <button
+    //             style={isJobApplied(job.id) ? styles.appliedButton : styles.applyButton}
+    //             onClick={() => handleApplyClick(job.id)}
+    //             disabled={isJobApplied(job.id)}
+    //           >
+    //             {isJobApplied(job.id) ? 'Applied' : 'Apply'}
+    //           </button>
+    //         </div>
+    //       ))
+    //     ) : (
+    //       <p style={styles.noJobs}>No job postings available.</p>
+    //     )}
+    //   </div>
+    //   <ConfirmModal
+    //     show={showModal}
+    //     onClose={handleCloseModal}
+    //     onConfirm={handleConfirmApply}
+    //   />
+    // </div>
+    <div>
+      <h1>Firestore Data</h1>
+      <div style={styles.container}>
+        {data.map(doc => (
+          <div className="card" key={doc.pay}>
+            <div className="card-title"></div>
+            <div className="card-content">
+            <p><strong style={styles.jobDetail}>Job:</strong> {doc.job}</p>
+              <p><strong>Location:</strong> {doc.loc}</p>
+              <p><strong>Date & Time:</strong> {doc.datentime}</p>
+              <p><strong>Pay:</strong> {doc.pay}</p>
             </div>
-          ))
-        ) : (
-          <p style={styles.noJobs}>No job postings available.</p>
-        )}
+          </div>
+        ))}
       </div>
-      <ConfirmModal
-        show={showModal}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirmApply}
-      />
     </div>
+
   );
 };
 
