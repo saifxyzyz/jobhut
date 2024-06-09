@@ -1,9 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
+import { Navigate } from 'react-router-dom';
 // import './firebase';
 import { auth } from "../firebase"; // Ensure this path is correct
 import {firestore, addDoc, collection, getFirestore} from 'firebase/firestore';
+import { Jobcontext } from './Jobcontext';
+import (Jobcontext)
 
 const Posting = () => {
   const [inputValue1, setInputValue1] = useState("");
@@ -11,6 +14,7 @@ const Posting = () => {
   const [inputValue3, setInputValue3] = useState("");
   const [inputValue4, setInputValue4] = useState("");
   const [inputValue5, setInputValue5] = useState("");
+  const navigate = useNavigate();
 
   const db = getFirestore();
   
@@ -42,7 +46,7 @@ const Posting = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addJob(formData);
+    // addJob(formData);
     navigate('/listing');
   };
 
