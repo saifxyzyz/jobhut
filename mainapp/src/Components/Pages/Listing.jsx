@@ -1,8 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Jobcontext } from './Jobcontext';
 import ConfirmModal from './ConfirmModal';
+import { app } from '../firebase.js';
 import { signOut } from 'firebase/auth'
-import {auth} from '../firebase.js'
+import { getDocs,collection } from 'firebase/firestore';
+import {auth} from '../firebase.js';
+import { db } from '../firebase.js';
+
+
 
 
 const Listing = () => {
@@ -10,7 +15,25 @@ const Listing = () => {
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentJobId, setCurrentJobId] = useState(null);
+  
+    const [data, setData] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "mycollection"));
+        const documents = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setData(documents);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
 
+    fetchData();
+  }, []);
   const handleApplyClick = (jobId) => {
     setCurrentJobId(jobId);
     setShowModal(true);

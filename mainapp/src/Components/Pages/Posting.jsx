@@ -20,11 +20,11 @@ const Posting = () => {
   
   const saveDataToFirestore = async () =>{
     const docRef= await addDoc(collection(db, "mycollection"), {
-      field1:inputValue1,
-      field2:inputValue2,
-      field3:inputValue3,
-      field4:inputValue4,
-      field5:inputValue5
+      job:inputValue1,
+      loc:inputValue2,
+      datentime:inputValue3,
+      pay:inputValue4,
+      desc:inputValue5
 
 
     });
@@ -96,8 +96,8 @@ const Posting = () => {
             type="datetime-local"
             id="dateTime"
             name="dateTime"
-            value={inputValue5}
-            onChange={(e) => setInputValue5(e.target.value)}
+            value={inputValue3}
+            onChange={(e) => setInputValue3(e.target.value)}
             style={styles.input}
             required
           />
@@ -108,8 +108,8 @@ const Posting = () => {
             type="text"
             id="pay"
             name="pay"
-            value={inputValue3}
-            onChange={(e) => setInputValue3(e.target.value)}
+            value={inputValue4}
+            onChange={(e) => setInputValue4(e.target.value)}
             style={styles.input}
             required
           />
@@ -119,8 +119,8 @@ const Posting = () => {
           <textarea
             id="description"
             name="description"
-            value={inputValue4}
-            onChange={(e) => setInputValue4(e.target.value)}
+            value={inputValue5}
+            onChange={(e) => setInputValue5(e.target.value)}
             style={styles.textarea}
             required
           ></textarea>
