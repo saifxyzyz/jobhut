@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 // import './firebase';
 import { auth } from "../firebase"; // Ensure this path is correct
@@ -41,9 +42,8 @@ const Posting = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form data:', formData);
-    // You can send this data to an API or perform any other actions as needed
+    addJob(formData);
+    navigate('/listing');
   };
 
   const handleSignOut = () => {

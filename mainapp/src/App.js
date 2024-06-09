@@ -1,18 +1,15 @@
 import './App.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Navigate, Routes, Route } from 'react-router-dom';
 import Intro from './Components/Pages/Intro';
 import Login from './Components/Pages/Login';
 import Signup from './Components/Pages/Signup';
 import Posting from './Components/Pages/Posting';
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// import { useState, useEffect } from 'react';
-import Home from './Components/Pages/Home'
-import { Navigate, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import Home from './Components/Pages/Home';
+import Listing from './Components/Pages/Listing'; // Make sure this path is correct
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Components/firebase';
-
+import { JobProvider } from './Components/Pages/Jobcontext'; // Make sure this path is correct
 
 function App() {
   const [user, setUser] = useState(null);
@@ -33,29 +30,31 @@ function App() {
 
   return (
     <div className="App">
-      
-      
-      <Routes>
-        <Route path="/Intro" element={<Intro />} />
-        
-        <Route
-          path="/Login"
-          element={user ? <Navigate to="/Intro" replace={true} /> : <Login />}
-        />
-        <Route
-          path="/Posting"
-          element={user ? <Posting /> :<Navigate to="/Login" replace={true} /> }
-        />
-        <Route
-          path="/"
-          element={user ? <Navigate to="/Intro" replace={true} /> : <Signup />}
-        />
-
-        <Route
-          path="/Home"
-          element={user ? <Home /> : <Navigate to="/Login" replace={true} />}
-        />
-      </Routes>
+      <JobProvider>
+        <Routes>
+          <Route path="/Intro" element={<Intro />} />
+          <Route
+            path="/Login"
+            element={user ? <Navigate to="/Intro" replace={true} /> : <Login />}
+          />
+          <Route
+            path="/Posting"
+            element={user ? <Posting /> : <Navigate to="/Login" replace={true} />}
+          />
+          <Route
+            path="/"
+            element={user ? <Navigate to="/Intro" replace={true} /> : <Signup />}
+          />
+          <Route
+            path="/Home"
+            element={user ? <Home /> : <Navigate to="/Login" replace={true} />}
+          />
+          <Route
+            path="/Listing"
+            element={user ? <Listing /> : <Navigate to="/Login" replace={true} />}
+          />
+        </Routes>
+      </JobProvider>
     </div>
   );
 }
