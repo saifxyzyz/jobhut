@@ -1,13 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import { Navigate } from 'react-router-dom';
-// import './firebase';
-import { auth } from "../firebase"; // Ensure this path is correct
-import {firestore, addDoc, collection, getFirestore} from 'firebase/firestore';
+import { auth } from "../firebase";
+import { firestore, addDoc, collection, getFirestore } from 'firebase/firestore';
 import { Jobcontext } from './Jobcontext';
-import (Jobcontext)
-
 
 const Posting = () => {
   const [inputValue1, setInputValue1] = useState("");
@@ -15,40 +11,26 @@ const Posting = () => {
   const [inputValue3, setInputValue3] = useState("");
   const [inputValue4, setInputValue4] = useState("");
   const [inputValue5, setInputValue5] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const db = getFirestore();
-  
-  const saveDataToFirestore = async () =>{
-    const docRef= await addDoc(collection(db, "users"), {
-      job:inputValue1,
-      loc:inputValue2,
-      datentime:inputValue3,
-      pay:inputValue4,
-      desc:inputValue5
 
-
+  const saveDataToFirestore = async () => {
+    await addDoc(collection(db, "users"), {
+      job: inputValue1,
+      loc: inputValue2,
+      datentime: inputValue3,
+      pay: inputValue4,
+      desc: inputValue5,
     });
-    alert("Document written to database")
-  }
-
-  const [formData, setFormData] = useState({
-    jobTitle: '',
-    location: '',
-    dateTime: '',
-    pay: '',
-    description: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setIsSubmitted(true);
+    alert("Document written to database");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // addJob(formData);
-    navigate('/listing');
+    saveDataToFirestore();
   };
 
   const handleSignOut = () => {
@@ -60,9 +42,14 @@ const Posting = () => {
     });
   };
 
+  const handleDashboardRedirect = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.header}>
+        <button onClick={handleDashboardRedirect} style={styles.dashboardButton}>Dashboard</button>
         <button onClick={handleSignOut} style={styles.signOutButton}>Sign Out</button>
       </div>
       <h1 style={styles.heading}>Post a Job</h1>
@@ -129,12 +116,11 @@ const Posting = () => {
         <button
           type="submit"
           style={styles.submitButton}
-          onClick={saveDataToFirestore}
-          onMouseEnter={(e) => (e.target.style.backgroundColor = styles.submitButtonHover.backgroundColor)}
-          onMouseLeave={(e) => (e.target.style.backgroundColor = styles.submitButton.backgroundColor)}
-          
+          onMouseEnter={(e) => !isSubmitted && (e.target.style.backgroundColor = styles.submitButtonHover.backgroundColor)}
+          onMouseLeave={(e) => !isSubmitted && (e.target.style.backgroundColor = styles.submitButton.backgroundColor)}
+          disabled={isSubmitted}
         >
-          Submit
+          {isSubmitted ? "Submitted" : "Submit"}
         </button>
       </form>
     </div>
@@ -155,7 +141,7 @@ const styles = {
   header: {
     width: '100%',
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     padding: '10px 20px',
     boxSizing: 'border-box',
   },
@@ -164,6 +150,16 @@ const styles = {
     fontSize: '16px',
     color: '#fff',
     backgroundColor: '#e8491d',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  dashboardButton: {
+    padding: '10px 20px',
+    fontSize: '16px',
+    color: '#fff',
+    backgroundColor: '#4CAF50',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',

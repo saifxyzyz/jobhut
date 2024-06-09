@@ -34,11 +34,15 @@ function App() {
       <JobProvider>
         <Routes>
           <Route path="/Intro" element={<Intro />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
+          {/* <Route path="/Dashboard" element={<Dashboard />} /> */}
 
           <Route
             path="/Login"
             element={user ? <Navigate to="/Intro" replace={true} /> : <Login />}
+          />
+          <Route
+            path="/Dashboard"
+            element={user ? <Dashboard /> :<Navigate to="/" replace={true} />  }
           />
           <Route
             path="/Posting"
