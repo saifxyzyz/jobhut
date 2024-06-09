@@ -6,10 +6,11 @@ import Login from './Components/Pages/Login';
 import Signup from './Components/Pages/Signup';
 import Posting from './Components/Pages/Posting';
 import Home from './Components/Pages/Home';
-import Listing from './Components/Pages/Listing'; // Make sure this path is correct
+import Listing from './Components/Pages/Listing'; 
+import Dashboard from './Components/Pages/Dashboard';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Components/firebase';
-import { JobProvider } from './Components/Pages/Jobcontext'; // Make sure this path is correct
+import { JobProvider } from './Components/Pages/Jobcontext'; 
 
 function App() {
   const [user, setUser] = useState(null);
@@ -33,13 +34,15 @@ function App() {
       <JobProvider>
         <Routes>
           <Route path="/Intro" element={<Intro />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+
           <Route
             path="/Login"
             element={user ? <Navigate to="/Intro" replace={true} /> : <Login />}
           />
           <Route
             path="/Posting"
-            element={user ? <Posting /> : <Navigate to="/Login" replace={true} />}
+            element={user ? <Posting /> : <Navigate to="/Signup" replace={true} />}
           />
           <Route
             path="/"

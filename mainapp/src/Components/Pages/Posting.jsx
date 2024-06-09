@@ -8,6 +8,7 @@ import {firestore, addDoc, collection, getFirestore} from 'firebase/firestore';
 import { Jobcontext } from './Jobcontext';
 import (Jobcontext)
 
+
 const Posting = () => {
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
@@ -131,6 +132,7 @@ const Posting = () => {
           onClick={saveDataToFirestore}
           onMouseEnter={(e) => (e.target.style.backgroundColor = styles.submitButtonHover.backgroundColor)}
           onMouseLeave={(e) => (e.target.style.backgroundColor = styles.submitButton.backgroundColor)}
+          
         >
           Submit
         </button>
