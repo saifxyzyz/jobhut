@@ -17,7 +17,7 @@ const Posting = () => {
   const db = getFirestore();
 
   const saveDataToFirestore = async () => {
-    await addDoc(collection(db, "users"), {
+    await addDoc(collection(db, "mycollection"), {
       job: inputValue1,
       loc: inputValue2,
       datentime: inputValue3,

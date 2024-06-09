@@ -121,7 +121,8 @@ const Listing = () => {
       padding: '20px',
       borderRadius: '10px',
       boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-      width: 'calc((100% - 40px) / 3)', // Three posts per row with 20px gap
+      width: '28vh', // Three posts per row with 20px gap
+      minHeight:'20vh',
       position: 'relative',
       boxSizing: 'border-box',
     },
