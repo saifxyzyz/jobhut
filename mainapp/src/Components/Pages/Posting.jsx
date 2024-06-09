@@ -1,13 +1,37 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
+import { Navigate } from 'react-router-dom';
+// import './firebase';
 import { auth } from "../firebase"; // Ensure this path is correct
+import {firestore, addDoc, collection, getFirestore} from 'firebase/firestore';
 import { Jobcontext } from './Jobcontext';
+import (Jobcontext)
 
 
 const Posting = () => {
-  const { addJob } = useContext(Jobcontext);
+  const [inputValue1, setInputValue1] = useState("");
+  const [inputValue2, setInputValue2] = useState("");
+  const [inputValue3, setInputValue3] = useState("");
+  const [inputValue4, setInputValue4] = useState("");
+  const [inputValue5, setInputValue5] = useState("");
   const navigate = useNavigate();
+
+  const db = getFirestore();
+  
+  const saveDataToFirestore = async () =>{
+    const docRef= await addDoc(collection(db, "mycollection"), {
+      field1:inputValue1,
+      field2:inputValue2,
+      field3:inputValue3,
+      field4:inputValue4,
+      field5:inputValue5
+
+
+    });
+    alert("Document written to database")
+  }
+
   const [formData, setFormData] = useState({
     jobTitle: '',
     location: '',
@@ -23,7 +47,7 @@ const Posting = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addJob(formData);
+    // addJob(formData);
     navigate('/listing');
   };
 
@@ -49,8 +73,8 @@ const Posting = () => {
             type="text"
             id="jobTitle"
             name="jobTitle"
-            value={formData.jobTitle}
-            onChange={handleChange}
+            value={inputValue1}
+            onChange={(e) => setInputValue1(e.target.value)}
             style={styles.input}
             required
           />
@@ -61,8 +85,8 @@ const Posting = () => {
             type="text"
             id="location"
             name="location"
-            value={formData.location}
-            onChange={handleChange}
+            value={inputValue2}
+            onChange={(e) => setInputValue2(e.target.value)}
             style={styles.input}
             required
           />
@@ -73,8 +97,8 @@ const Posting = () => {
             type="datetime-local"
             id="dateTime"
             name="dateTime"
-            value={formData.dateTime}
-            onChange={handleChange}
+            value={inputValue5}
+            onChange={(e) => setInputValue5(e.target.value)}
             style={styles.input}
             required
           />
@@ -85,8 +109,8 @@ const Posting = () => {
             type="text"
             id="pay"
             name="pay"
-            value={formData.pay}
-            onChange={handleChange}
+            value={inputValue3}
+            onChange={(e) => setInputValue3(e.target.value)}
             style={styles.input}
             required
           />
@@ -96,8 +120,8 @@ const Posting = () => {
           <textarea
             id="description"
             name="description"
-            value={formData.description}
-            onChange={handleChange}
+            value={inputValue4}
+            onChange={(e) => setInputValue4(e.target.value)}
             style={styles.textarea}
             required
           ></textarea>
@@ -105,6 +129,7 @@ const Posting = () => {
         <button
           type="submit"
           style={styles.submitButton}
+          onClick={saveDataToFirestore}
           onMouseEnter={(e) => (e.target.style.backgroundColor = styles.submitButtonHover.backgroundColor)}
           onMouseLeave={(e) => (e.target.style.backgroundColor = styles.submitButton.backgroundColor)}
           onClick={saveDataToFirestore}

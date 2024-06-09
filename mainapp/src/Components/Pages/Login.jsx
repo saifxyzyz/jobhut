@@ -45,7 +45,7 @@ export const Login = () => {
           >Log In</button>
           <p style={styles.signupText}>
             Don't have an account?
-            <Link to='/Signup' style={styles.signupLink}> Sign Up</Link>
+            <Link to='/' style={styles.signupLink}> Sign Up</Link>
           </p>
         </form>
       </div>
