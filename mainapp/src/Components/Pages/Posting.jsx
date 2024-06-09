@@ -132,7 +132,7 @@ const Posting = () => {
           onClick={saveDataToFirestore}
           onMouseEnter={(e) => (e.target.style.backgroundColor = styles.submitButtonHover.backgroundColor)}
           onMouseLeave={(e) => (e.target.style.backgroundColor = styles.submitButton.backgroundColor)}
-          onClick={saveDataToFirestore}
+          
         >
           Submit
         </button>
