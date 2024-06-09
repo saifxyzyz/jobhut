@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Jobcontext } from './Jobcontext';
 import ConfirmModal from './ConfirmModal';
-import { signOut } from 'firebase/auth'
-import {auth} from '../firebase.js'
-
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase.js';
 
 const Listing = () => {
   const { jobs } = useContext(Jobcontext);
@@ -31,35 +30,30 @@ const Listing = () => {
 
   const styles = {
     container: {
-        position: 'relative', // Add position relative to the container
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        padding: '20px',
-        backgroundImage: 'linear-gradient(to right, #ff7e5f, #feb47b)',
-        fontFamily: 'Arial, sans-serif',
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      padding: '20px',
+      backgroundImage: 'linear-gradient(to right, #ff7e5f, #feb47b)',
+      fontFamily: 'Arial, sans-serif',
     },
     header: {
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'flex-end',
-      padding: '10px 20px',
-      boxSizing: 'border-box',
+      position: 'absolute',
+      top: '20px',
+      right: '20px',
     },
     signOutButton: {
-        position: 'fixed', 
-        top: '20px', 
-        right: '20px',
-        padding: '10px 20px',
-        fontSize: '16px',
-        color: '#fff',
-        backgroundColor: '#e8491d',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
+      padding: '10px 20px',
+      fontSize: '16px',
+      color: '#fff',
+      backgroundColor: '#e8491d',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
     },
     heading: {
       color: '#fff',
@@ -90,18 +84,14 @@ const Listing = () => {
       fontSize: '16px',
       margin: '5px 0',
     },
-    noJobs: {
-      fontSize: '18px',
-      color: '#fff',
-    },
     applyButton: {
       position: 'absolute',
       bottom: '20px',
-      right: '20px',
+      left: '20px',
       padding: '10px 20px',
       fontSize: '16px',
       color: '#fff',
-      backgroundColor: '#e8491d',
+      backgroundColor: '#007bff',
       border: 'none',
       borderRadius: '5px',
       cursor: 'pointer',
@@ -110,22 +100,26 @@ const Listing = () => {
     appliedButton: {
       position: 'absolute',
       bottom: '20px',
-      right: '20px',
+      left: '20px',
       padding: '10px 20px',
       fontSize: '16px',
       color: '#fff',
-      backgroundColor: '#007bff',
+      backgroundColor: '#6c757d',
       border: 'none',
       borderRadius: '5px',
       cursor: 'default',
       transition: 'all 0.3s ease',
+    },
+    noJobs: {
+      fontSize: '18px',
+      color: '#fff',
     },
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <button onClick={()=>{signOut(auth)}} style={styles.signOutButton}>Sign Out</button>
+        <button onClick={() => signOut(auth)} style={styles.signOutButton}>Sign Out</button>
       </div>
       <h1 style={styles.heading}>Job Listings</h1>
       <div style={styles.list}>
