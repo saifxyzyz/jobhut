@@ -42,7 +42,7 @@ function App() {
           />
           <Route
             path="/Posting"
-            element={user ? <Posting /> : <Navigate to="/Signup" replace={true} />}
+            element={user ? <Posting /> : <Navigate to="/" replace={true} />}
           />
           <Route
             path="/"

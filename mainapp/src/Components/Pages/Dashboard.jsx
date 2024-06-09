@@ -1,69 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase'; // Import Firebase configuration
+import { getDocs, collection } from 'firebase/firestore';
+import { db } from '../firebase.js';
 
 const Dashboard = () => {
-  const [applicants, setApplicants] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUsers = async () => {
       try {
-        // Reference to a Firestore collection of applicants
-        const applicantsRef = db.collection('applicants');
-
-        // Execute query to get documents from the collection
-        const snapshot = await applicantsRef.get();
-
-        // Extract data from documents
-        const fetchedApplicants = snapshot.docs.map(doc => ({
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const documents = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-
-        // Update state with fetched applicants
-        setApplicants(fetchedApplicants);
+        setUsers(documents);
       } catch (error) {
-        console.error('Error fetching applicants:', error);
+        console.error("Error fetching applications: ", error);
       }
     };
 
-    // Call the fetchData function when the component mounts
-    fetchData();
-  }, []); // Empty dependency array ensures the effect runs only once
+    fetchUsers();
+  }, []);
 
-  const handleAccept = (applicantId) => {
-    // Implement accept logic here
-    console.log('Accept applicant with ID:', applicantId);
-  };
-
-  const handleReject = (applicantId) => {
-    // Implement reject logic here
-    console.log('Reject applicant with ID:', applicantId);
+  const styles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '20px',
+      fontFamily: 'Arial, sans-serif',
+    },
+    heading: {
+      fontSize: '32px',
+      textAlign: 'center',
+      marginBottom: '20px',
+    },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      marginBottom: '20px',
+    },
+    th: {
+      border: '1px solid #ddd',
+      padding: '8px',
+      backgroundColor: '#f2f2f2',
+    },
+    td: {
+      border: '1px solid #ddd',
+      padding: '8px',
+    },
   };
 
   return (
-    <div>
-      <h1>Applicant Dashboard</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Serial Number</th>
-            <th>Name</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applicants.map((applicant, index) => (
-            <tr key={applicant.id}>
-              <td>{index + 1}</td>
-              <td>{applicant.name}</td>
-              <td>
-                <button onClick={() => handleAccept(applicant.id)}>Accept</button>
-                <button onClick={() => handleReject(applicant.id)}>Reject</button>
-              </td>
+    <div style={styles.container}>
+      <h1 style={styles.heading}>Applications Dashboard</h1>
+      {users.length > 0 ? (
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Name</th>
+              <th style={styles.th}>Phone Number</th>
+              {/* <th style={styles.th}>Approval</th> */}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map(application => (
+              <tr key={application.id}>
+                <td style={styles.td}>{application.name}</td>
+                <td style={styles.td}>{application.phoneno}</td>
+                {/* <td style={styles.td}>{application.jobId}</td> */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No applications found.</p>
+      )}
     </div>
   );
 };

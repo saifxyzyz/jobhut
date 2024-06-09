@@ -3,7 +3,7 @@ import { Jobcontext } from './Jobcontext';
 import ConfirmModal from './ConfirmModal';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase.js';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase.js';
 
 const Listing = () => {
@@ -12,6 +12,9 @@ const Listing = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentJobId, setCurrentJobId] = useState(null);
   const [data, setData] = useState([]);
+  const [showForm, setShowForm] = useState(false); // State to control the visibility of the form
+  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +35,7 @@ const Listing = () => {
 
   const handleApplyClick = (jobId) => {
     setCurrentJobId(jobId);
-    setShowModal(true);
+    setShowForm(true); // Show the form when applying
   };
 
   const handleConfirmApply = () => {
@@ -46,32 +49,58 @@ const Listing = () => {
     setCurrentJobId(null);
   };
 
+  const handleCloseForm = () => {
+    setShowForm(false); // Close the form
+    setCurrentJobId(null);
+    setName('');
+    setPhoneNumber('');
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      // Add the application data to Firestore
+      await addDoc(collection(db, "users"), {
+        jobId: currentJobId,
+        name: name,
+        phoneno: phoneNumber,
+      });
+      setAppliedJobs([...appliedJobs, currentJobId]);
+      setShowForm(false); // Close the form after submission
+      setCurrentJobId(null);
+      setName('');
+      setPhoneNumber('');
+    } catch (error) {
+      console.error("Error submitting application: ", error);
+    }
+  };
+
   const isJobApplied = (jobId) => appliedJobs.includes(jobId);
 
   const styles = {
     container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        minHeight: '100vh',
-        padding: '20px',
-        backgroundImage: 'linear-gradient(to right, #ff7e5f, #feb47b)',
-        fontFamily: 'Arial, sans-serif',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      minHeight: '100vh',
+      padding: '20px',
+      backgroundImage: 'linear-gradient(to right, #ff7e5f, #feb47b)',
+      fontFamily: 'Arial, sans-serif',
     },
     header: {
-        position: 'absolute',
-        top: '20px',
-        right: '20px',
+      position: 'absolute',
+      top: '20px',
+      right: '20px',
     },
     signOutButton: {
-        padding: '10px 20px',
-        fontSize: '16px',
-        color: '#fff',
-        backgroundColor: '#e8491d',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
+      padding: '10px 20px',
+      fontSize: '16px',
+      color: '#fff',
+      backgroundColor: '#e8491d',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
     },
     heading: {
       color: '#fff',
@@ -89,7 +118,7 @@ const Listing = () => {
     },
     jobItem: {
       backgroundColor: '#fff',
-      padding: '60px', // Three times bigger padding
+      padding: '20px',
       borderRadius: '10px',
       boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
       width: 'calc((100% - 40px) / 3)', // Three posts per row with 20px gap
@@ -97,32 +126,32 @@ const Listing = () => {
       boxSizing: 'border-box',
     },
     jobTitle: {
-      fontSize: '48px', // Three times bigger font size
-      margin: '0 0 20px',
+      fontSize: '24px',
+      margin: '0 0 10px',
     },
     jobDetail: {
-      fontSize: '24px', // Three times bigger font size
-      margin: '10px 0',
+      fontSize: '16px',
+      margin: '5px 0',
     },
     applyButton: {
-        position: 'absolute',
-        bottom: '20px',
-        right: '20px',
-        padding: '8px 16px', // Smaller padding
-        fontSize: '14px', // Smaller font size
-        color: '#fff',
-        backgroundColor: '#e8491d', // Color like sign-out button
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
+      position: 'absolute',
+      bottom: '20px',
+      right: '20px',
+      padding: '8px 16px',
+      fontSize: '14px',
+      color: '#fff',
+      backgroundColor: '#e8491d',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
     },
     appliedButton: {
       position: 'absolute',
       bottom: '20px',
       right: '20px',
-      padding: '8px 16px', // Three times bigger padding
-      fontSize: '14px', // Three times bigger font size
+      padding: '8px 16px',
+      fontSize: '14px',
       color: '#fff',
       backgroundColor: '#6c757d',
       border: 'none',
@@ -133,6 +162,38 @@ const Listing = () => {
     noJobs: {
       fontSize: '24px',
       color: '#fff',
+    },
+    formContainer: {
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: '#fff',
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+      zIndex: '999',
+      width: '400px',
+    },
+    input: {
+      width: '100%',
+      padding: '10px',
+      marginBottom: '20px',
+      border: '1px solid #ccc',
+      borderRadius: '5px',
+      boxSizing: 'border-box',
+      fontSize: '16px',
+    },
+    formButton: {
+      padding: '10px 20px',
+      fontSize: '16px',
+      color: '#fff',
+      backgroundColor: '#e8491d',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+      marginRight: '10px',
     },
   };
 
@@ -169,6 +230,32 @@ const Listing = () => {
         onClose={handleCloseModal}
         onConfirm={handleConfirmApply}
       />
+      {/* Render the form if showForm is true */}
+      {showForm && (
+        <div style={styles.formContainer}>
+          <h2>Application Form</h2>
+          <form onSubmit={handleFormSubmit}>
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={styles.input}
+              required
+            />
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              style={styles.input}
+              required
+            />
+            <button type="submit" style={styles.formButton}>Submit</button>
+            <button type="button" onClick={handleCloseForm} style={styles.formButton}>Cancel</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
